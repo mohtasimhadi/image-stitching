@@ -14,5 +14,7 @@ def convert_to_grayscale(images):
     return grayscale_images
 
 def save_image(image, path):
-    plt.imshow(image)
     cv2.imwrite(path, image)
+
+def show_image(image):
+    plt.imshow(image)

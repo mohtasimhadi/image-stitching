@@ -17,15 +17,12 @@ def find_corresponding_points(image1, image2):
     
     return matched_keypoints1, matched_keypoints2
 
-def stitch_images_icp(images):
+def stitch_images(images, keypoints_1, keypoints_2):
     image1 = images[0]
     image2 = images[1]
-
-    # Find corresponding points
-    matched_keypoints1, matched_keypoints2 = find_corresponding_points(image1, image2)
     
     # Estimate the transformation matrix using the ICP algorithm
-    transformation_matrix, _ = cv2.estimateAffinePartial2D(matched_keypoints2, matched_keypoints1)
+    transformation_matrix, _ = cv2.estimateAffinePartial2D(keypoints_2, keypoints_1)
     
     # Warp image2 to image1
     height, width = image1.shape[:2]
