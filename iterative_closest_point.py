@@ -17,7 +17,10 @@ def find_corresponding_points(image1, image2):
     
     return matched_keypoints1, matched_keypoints2
 
-def stitch_images(image1, image2):
+def stitch_images_icp(images):
+    image1 = images[0]
+    image2 = images[1]
+
     # Find corresponding points
     matched_keypoints1, matched_keypoints2 = find_corresponding_points(image1, image2)
     
@@ -32,20 +35,3 @@ def stitch_images(image1, image2):
     panorama = cv2.addWeighted(image1, 0.5, stitched_image, 0.5, 0)
     
     return panorama
-
-if __name__ == "__main__":
-    # Load two images
-    image1 = cv2.imread('s1.jpeg')
-    image2 = cv2.imread('s2.jpeg')
-    
-    # Convert images to grayscale
-    image1_gray = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    image2_gray = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-    
-    # Stitch images
-    panorama = stitch_images(image1, image2)
-    
-    # Display the panorama
-    cv2.imshow('Panorama', panorama)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
