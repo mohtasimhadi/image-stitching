@@ -6,8 +6,6 @@ import numpy
 from .combine import combine_images
 from .combine import compute_matches
 
-__doc__ = '''ImageStitcher class for combining all images together'''
-
 
 class ImageStitcher:
     __doc__ = '''ImageStitcher class for combining all images together'''
