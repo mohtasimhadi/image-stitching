@@ -5,3 +5,4 @@ __pycache__
 .DS_STORE
 .DS_Store
 *.ipynb
+*.jpeg

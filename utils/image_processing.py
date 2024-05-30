@@ -9,4 +9,7 @@ def convert_to_grayscale(images):
     return grayscale_images
 
 def calculate_fov(width, focal_length):
-    return 2 * math.degrees(math.atan((2 * width) / (2 * focal_length)))
+    return 2 * math.degrees(math.atan(width / (2 * focal_length)))
+
+def calculate_dfov(hfov, vfov):
+    return math.sqrt(hfov ** 2 + vfov ** 2)
