@@ -12,7 +12,7 @@ def list_files(directory):
 def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
     stitcher = ImageStitcher()
     for idx, frame in enumerate(load_frames(file_directories)):
-        print(f"[Log] Working on index {idx+1} of {int(len(file_directories)/skip_size)}")
+        print(f"\033[94m[Log]\033[0m Working on index {idx+1} of {int(len(file_directories)/skip_size)}")
         stitcher.add_image(frame)
         stitched_image = stitcher.image()
         cv2.imwrite(output_dir+str(idx)+".png", stitched_image)
@@ -22,5 +22,4 @@ if __name__ == "__main__":
     try:
         stitch_image(list_files(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
     except Exception as e:
-        print("[Log] Error!")
-        print(e)
+        print("\033[91m[Error]\033[0m   ", e)

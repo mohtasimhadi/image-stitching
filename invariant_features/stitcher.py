@@ -1,14 +1,10 @@
-import logging
-
 import cv2
 import numpy
-
 from .combine import combine_images
 from .combine import compute_matches
 
 
 class ImageStitcher:
-    __doc__ = '''ImageStitcher class for combining all images together'''
 
     def __init__(self, min_num: int = 10, lowe: float = 0.7, knn_clusters: int = 2):
         '''constructor that initialises the SIFT class and Flann matcher'''
@@ -49,13 +45,13 @@ class ImageStitcher:
                                                               lowe=self.lowe)
 
         if n_matches < self.min_num:
-            logging.warning('too few correspondences to add image to stitched image')
+            print("\033[93m[warning]\033[0m Image can't be stitched due to unavailability of minimum correspondences!")
             return
 
-        logging.debug('computing homography between accumulated and new images')
+        print("\033[92m[Debug]\033[0m Computing homography between accumulated and new images..")
         homography, _ = cv2.findHomography(matches_src, matches_dst, cv2.RANSAC, 5.0)
 
-        logging.debug('stitching images together')
+        print("\033[92m[Debug]\033[0m Sitching images...")
         self.result_image = combine_images(image, self.result_image, homography)
         self.result_image_gray = cv2.cvtColor(self.result_image, cv2.COLOR_RGB2GRAY)
 

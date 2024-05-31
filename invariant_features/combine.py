@@ -1,10 +1,5 @@
-import logging
-
 import cv2
 import numpy
-
-__doc__ = '''helper functions for combining images, only to be used in the stitcher class'''
-
 
 def compute_matches(features0, features1, matcher, knn=5, lowe=0.7):
     '''
@@ -13,11 +8,11 @@ def compute_matches(features0, features1, matcher, knn=5, lowe=0.7):
     keypoints0, descriptors0 = features0
     keypoints1, descriptors1 = features1
 
-    logging.debug('finding correspondence')
+    print("\033[92m[Debug]\033[0m Finding correspondence...")
 
     matches = matcher.knnMatch(descriptors0, descriptors1, k=knn)
 
-    logging.debug("filtering matches with lowe test")
+    print("\033[92m[Debug]\033[0m Filtering matches with lowe test...")
 
     positive = []
     for match0, match1 in matches:
@@ -39,7 +34,8 @@ def combine_images(img0, img1, h_matrix):
     this takes two images and the homography matrix from 0 to 1 and combines the images together!
     the logic is convoluted here and needs to be simplified!
     '''
-    logging.debug('combining images... ')
+
+    print("\033[92m[Debug]\033[0m Combining images...")
 
     points0 = numpy.array(
         [[0, 0], [0, img0.shape[0]], [img0.shape[1], img0.shape[0]], [img0.shape[1], 0]],
@@ -58,7 +54,7 @@ def combine_images(img0, img1, h_matrix):
 
     h_translation = numpy.array([[1, 0, -x_min], [0, 1, -y_min], [0, 0, 1]])
 
-    logging.debug('warping previous image...')
+    print("\033[92m[Debug]\033[0m Warping previous image...")
     output_img = cv2.warpPerspective(img1, h_translation.dot(h_matrix),
                                      (x_max - x_min, y_max - y_min))
     output_img[-y_min:img0.shape[0] - y_min, -x_min:img0.shape[1] - x_min] = img0
