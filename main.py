@@ -1,5 +1,7 @@
 import os, sys, traceback
+from iterative_closest_point import icp
 from invariant_features import ImageStitcher
+from scale_invariant_feature_transform import sift
 from utils.file_processing import load_frames, list_files, save_image
 
 def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
