@@ -1,3 +1,5 @@
+# Panoramic Image Stitching
+
 # Camera Configuration
 
 **OAK-D Pro**
@@ -29,5 +31,3 @@ pip install -r requirements.txt
 ```bash
 python main.py <input directory> <output directory> <batch size>
 ```
-
-<batch size>
