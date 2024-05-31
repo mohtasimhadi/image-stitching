@@ -2,9 +2,6 @@
 
 **OAK-D Pro**
 
-IMx378 Color Sensor
-
-
 | Spec           | Color    | Stereo   |
 | -------------- | -------- | -------- |
 | Sensor         | IMX378   | OV9282   |
@@ -16,6 +13,8 @@ IMx378 Color Sensor
 | Lens Size      | 1/2.3 inch | 1/4 inch|
 | Effective Focal Length | 4.81 mm | 2.35 mm|
 | Pixel Size | 1.55µm * 1.55µm | 3.0 µm * 3.00 µm|
+
+Full camera documentation can be found ([here.](https://docs.luxonis.com/projects/hardware/en/latest/pages/DM9098pro/))
 
 # Installation
 
