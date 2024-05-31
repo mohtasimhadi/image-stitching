@@ -4,7 +4,7 @@ from utils.file_processing import load_frames, list_files, save_image
 
 def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
     stitcher = ImageStitcher()
-    for idx, frame in enumerate(load_frames(file_directories)):
+    for idx, frame in enumerate(load_frames(file_directories[::skip_size])):
         print(f"\033[94m[Log]\033[0m Stitching image {idx+1} of {int(len(file_directories)/skip_size)} images.")
         stitcher.add_image(frame)
         stitched_image = stitcher.image()
