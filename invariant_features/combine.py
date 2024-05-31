@@ -8,11 +8,11 @@ def compute_matches(features0, features1, matcher, knn=5, lowe=0.7):
     keypoints0, descriptors0 = features0
     keypoints1, descriptors1 = features1
 
-    print("\033[92m[Debug]\033[0m Finding correspondence...")
+    print("\033[92m[Process]\033[0m Finding correspondence...")
 
     matches = matcher.knnMatch(descriptors0, descriptors1, k=knn)
 
-    print("\033[92m[Debug]\033[0m Filtering matches with lowe test...")
+    print("\033[92m[Process]\033[0m Filtering matches with lowe test...")
 
     positive = []
     for match0, match1 in matches:
@@ -35,7 +35,7 @@ def combine_images(img0, img1, h_matrix):
     the logic is convoluted here and needs to be simplified!
     '''
 
-    print("\033[92m[Debug]\033[0m Combining images...")
+    print("\033[92m[Process]\033[0m Combining images...")
 
     points0 = numpy.array(
         [[0, 0], [0, img0.shape[0]], [img0.shape[1], img0.shape[0]], [img0.shape[1], 0]],
@@ -54,7 +54,7 @@ def combine_images(img0, img1, h_matrix):
 
     h_translation = numpy.array([[1, 0, -x_min], [0, 1, -y_min], [0, 0, 1]])
 
-    print("\033[92m[Debug]\033[0m Warping previous image...")
+    print("\033[92m[Process]\033[0m Warping previous image...")
     output_img = cv2.warpPerspective(img1, h_translation.dot(h_matrix),
                                      (x_max - x_min, y_max - y_min))
     output_img[-y_min:img0.shape[0] - y_min, -x_min:img0.shape[1] - x_min] = img0

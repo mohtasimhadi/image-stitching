@@ -48,10 +48,10 @@ class ImageStitcher:
             print("\033[93m[warning]\033[0m Image can't be stitched due to unavailability of minimum correspondences!")
             return
 
-        print("\033[92m[Debug]\033[0m Computing homography between accumulated and new images..")
+        print("\033[92m[Process]\033[0m Computing homography between accumulated and new images..")
         homography, _ = cv2.findHomography(matches_src, matches_dst, cv2.RANSAC, 5.0)
 
-        print("\033[92m[Debug]\033[0m Sitching images...")
+        print("\033[92m[Process]\033[0m Sitching images...")
         self.result_image = combine_images(image, self.result_image, homography)
         self.result_image_gray = cv2.cvtColor(self.result_image, cv2.COLOR_RGB2GRAY)
 
