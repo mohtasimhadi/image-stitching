@@ -20,7 +20,6 @@ def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
 
 if __name__ == "__main__":
     try:
-        print(sys.argv)
         stitch_image(list_files(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
     except Exception as e:
         print("[Log] Error!")
