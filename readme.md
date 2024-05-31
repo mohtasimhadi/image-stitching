@@ -1,6 +1,6 @@
 # Panoramic Image Stitching
 
-# Camera Configuration
+## Camera Configuration For the Test Images
 
 **OAK-D Pro**
 
@@ -18,7 +18,7 @@
 
 Full camera documentation can be found [here.](https://docs.luxonis.com/projects/hardware/en/latest/pages/DM9098pro/)
 
-# Installation
+## Installation
 
 ```bash
 git clone <repository link>
@@ -26,7 +26,9 @@ cd <repository directory>
 pip install -r requirements.txt
 ```
 
-# Usage
+## Usage
+
+### Invariant Features
 
 ```bash
 python main.py <input directory> <output directory> <batch size>
