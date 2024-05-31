@@ -14,7 +14,7 @@
 | Effective Focal Length | 4.81 mm | 2.35 mm|
 | Pixel Size | 1.55µm * 1.55µm | 3.0 µm * 3.00 µm|
 
-Full camera documentation can be found ([here.](https://docs.luxonis.com/projects/hardware/en/latest/pages/DM9098pro/))
+Full camera documentation can be found [here.](https://docs.luxonis.com/projects/hardware/en/latest/pages/DM9098pro/)
 
 # Installation
 
