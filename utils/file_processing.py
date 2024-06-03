@@ -24,7 +24,7 @@ def list_files(directory):
 
 def save_image(path, image):
     cv2.imwrite(path, image)
-    print(f"\033[94m[Log]\033[0m Final image saved at \033[94m{path}\033[0m")
+    print(f"\033[94m[Log]\033[0m Image saved at \033[94m{path}\033[0m")
 
 def show_image(image):
     plt.imshow(image)
