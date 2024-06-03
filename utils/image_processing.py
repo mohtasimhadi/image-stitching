@@ -15,7 +15,7 @@ def calculate_fov(width, focal_length):
 def calculate_dfov(hfov, vfov):
     return math.sqrt(hfov ** 2 + vfov ** 2)
 
-def combine_images(depth_image1, depth_image2, rgb_image):
+def combine_images_rgbd(depth_image1, depth_image2, rgb_image):
     depth1 = cv2.imread(depth_image1, cv2.IMREAD_GRAYSCALE)
     depth2 = cv2.imread(depth_image2, cv2.IMREAD_GRAYSCALE)
     rgb = cv2.imread(rgb_image, cv2.IMREAD_COLOR)

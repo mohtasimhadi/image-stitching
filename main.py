@@ -7,11 +7,21 @@ from utils.video_processing import extract_frames
 
 def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
     stitcher = ImageStitcher()
-    for idx, frame in enumerate(load_frames(file_directories[::skip_size])):
-        print(f"\033[94m[Log]\033[0m Stitching image {idx+1} of {int(len(file_directories)/skip_size)} images.")
+    interval_frames = []
+    for idx, frame in enumerate(load_frames(file_directories)):
+        print(f"\033[94m[Log]\033[0m Stitching image {idx+1} of {int(len(file_directories))} images.")
         stitcher.add_image(frame)
         stitched_image = stitcher.image()
-        save_image(output_dir+str(idx)+".png", stitched_image)
+        if idx % skip_size == 0:
+            stitcher = ImageStitcher()
+            interval_frames.append(stitched_image)
+            save_image(output_dir+str(idx)+".png", stitched_image)
+    stitcher = ImageStitcher()
+    for idx, frame in enumerate(interval_frames):
+        print(f"\033[94m[Log]\033[0m Stitching interval image {idx+1} of {int(len(interval_frames))} images.")
+        stitcher.add_image(frame)
+        stitched_image = stitcher.image()
+        save_image(output_dir+"interval"+str(idx)+".png", stitched_image)
     save_image(output_dir+"0_final_image.png", stitched_image)
 
 if __name__ == "__main__":
