@@ -9,13 +9,14 @@ def stitch_image(file_directories: list, output_dir: str, skip_size = 5):
     stitcher = ImageStitcher()
     interval_frames = []
     for idx, frame in enumerate(load_frames(file_directories)):
-        print(f"\033[94m[Log]\033[0m Stitching image {idx+1} of {int(len(file_directories))} images.")
+        print(f"\033[94m[Log]\033[0m Stitching image {idx} of {int(len(file_directories))} images.")
         stitcher.add_image(frame)
         stitched_image = stitcher.image()
         if idx % skip_size == 0:
             stitcher = ImageStitcher()
             interval_frames.append(stitched_image)
             save_image(output_dir+str(idx)+".png", stitched_image)
+            stitched_image = None
     stitcher = ImageStitcher()
     for idx, frame in enumerate(interval_frames):
         print(f"\033[94m[Log]\033[0m Stitching interval image {idx+1} of {int(len(interval_frames))} images.")
