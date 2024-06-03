@@ -1,32 +1,38 @@
 import depthai as dai
-import cv2
+import numpy as np
 
+# Initialize pipeline
 pipeline = dai.Pipeline()
 
-# Define sources and outputs
-camRgb: dai.node.Camera = pipeline.create(dai.node.Camera)
+# Configure left and right mono cameras
+left = pipeline.createMonoCamera()
+left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
+left.setBoardSocket(dai.CameraBoardSocket.CAM_B)
 
-#Properties
-camRgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)
-camRgb.setSize((1280, 800))
+right = pipeline.createMonoCamera()
+right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
+right.setBoardSocket(dai.CameraBoardSocket.CAM_C)
 
-# Linking
-videoOut = pipeline.create(dai.node.XLinkOut)
-videoOut.setStreamName("video")
-camRgb.video.link(videoOut.input)
+# Create stereo depth node
+stereo = pipeline.createStereoDepth()
+stereo.initialConfig.setConfidenceThreshold(200)
+left.out.link(stereo.left)
+right.out.link(stereo.right)
 
-ispOut = pipeline.create(dai.node.XLinkOut)
-ispOut.setStreamName("isp")
-camRgb.isp.link(ispOut.input)
+# Create XLinkOut node to output point cloud
+xout_pc = pipeline.createXLinkOut()
+xout_pc.setStreamName("point_cloud")
+stereo.disparity.link(xout_pc.input)
 
+# Start the pipeline
 with dai.Device(pipeline) as device:
-    video = device.getOutputQueue(name="video", maxSize=1, blocking=False)
-    isp = device.getOutputQueue(name="isp", maxSize=1, blocking=False)
+    # Get the point cloud output queue
+    point_cloud_queue = device.getOutputQueue(name="point_cloud", maxSize=4, blocking=False)
 
     while True:
-        if video.has():
-            cv2.imshow("video", video.get().getCvFrame())
-        if isp.has():
-            cv2.imshow("isp", isp.get().getCvFrame())
-        if cv2.waitKey(1) == ord('q'):
-            break
+        # Get the point cloud data
+        point_cloud_data = point_cloud_queue.get()
+        if point_cloud_data is not None:
+            # Process point cloud data
+            points = np.array(point_cloud_data.getData()).view(np.float32).reshape((480, 640, 3))
+            # Now you can use 'points' to do further processing or visualization
