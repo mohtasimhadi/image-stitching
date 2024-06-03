@@ -8,6 +8,7 @@ import depthai as dai
 import open3d as o3d
 
 COLOR = True
+OUT_DIR = "output/real-time/"
 
 lrcheck = True
 extended = False
@@ -34,7 +35,6 @@ monoRight.setBoardSocket(dai.CameraBoardSocket.RIGHT)
 stereo = pipeline.createStereoDepth()
 stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
 stereo.initialConfig.setMedianFilter(median)
-# stereo.initialConfig.setConfidenceThreshold(255)
 
 stereo.setLeftRightCheck(lrcheck)
 stereo.setExtendedDisparity(extended)
@@ -57,10 +57,6 @@ stereo.initialConfig.set(config)
 xout_depth = pipeline.createXLinkOut()
 xout_depth.setStreamName("depth")
 stereo.depth.link(xout_depth.input)
-
-# xout_disparity = pipeline.createXLinkOut()
-# xout_disparity.setStreamName('disparity')
-# stereo.disparity.link(xout_disparity.input)
 
 xout_colorize = pipeline.createXLinkOut()
 xout_colorize.setStreamName("colorize")
@@ -91,7 +87,6 @@ class HostSync:
     def add_msg(self, name, msg):
         if not name in self.arrays:
             self.arrays[name] = []
-        # Add msg to array
         self.arrays[name].append({"msg": msg, "seq": msg.getSequenceNum()})
 
         synced = {}
@@ -100,10 +95,8 @@ class HostSync:
                 if msg.getSequenceNum() == obj["seq"]:
                     synced[name] = obj["msg"]
                     break
-        # If there are 5 (all) synced msgs, remove all old msgs
-        # and return synced msgs
-        if len(synced) == 4:  # color, left, right, depth, nn
-            # Remove old msgs
+
+        if len(synced) == 4:
             for name, arr in self.arrays.items():
                 for i, obj in enumerate(arr):
                     if obj["seq"] < msg.getSequenceNum():
@@ -167,10 +160,10 @@ with dai.Device(pipeline) as device:
         key = cv2.waitKey(1)
         if key == ord("s"):
             timestamp = str(int(time.time()))
-            cv2.imwrite(f"{serial_no}_{timestamp}_depth.png", depth_vis)
-            cv2.imwrite(f"{serial_no}_{timestamp}_color.png", color)
-            cv2.imwrite(f"{serial_no}_{timestamp}_rectified_left.png", rectified_left)
-            cv2.imwrite(f"{serial_no}_{timestamp}_rectified_right.png", rectified_right)
-            o3d.io.write_point_cloud(f"{serial_no}_{timestamp}.pcd", pcl_converter.pcl, compressed=True)
+            cv2.imwrite(OUT_DIR+f"{serial_no}_{timestamp}_depth.png", depth_vis)
+            cv2.imwrite(OUT_DIR+f"{serial_no}_{timestamp}_color.png", color)
+            cv2.imwrite(OUT_DIR+f"{serial_no}_{timestamp}_rectified_left.png", rectified_left)
+            cv2.imwrite(OUT_DIR+f"{serial_no}_{timestamp}_rectified_right.png", rectified_right)
+            o3d.io.write_point_cloud(OUT_DIR+f"{serial_no}_{timestamp}.pcd", pcl_converter.pcl, compressed=True)
         elif key == ord("q"):
             break
